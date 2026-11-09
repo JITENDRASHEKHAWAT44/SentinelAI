@@ -62,8 +62,11 @@ function scoreClass(v) {
   return 'score-low';
 }
 
+const API_BASE = (window.SENTINEL_API_URL || localStorage.getItem('sentinel_api_url') || '').replace(/\/+$/, '');
+
 async function api(path, opts = {}) {
-  const res = await fetch(path, opts);
+  const url = path.startsWith('http') ? path : `${API_BASE}${path}`;
+  const res = await fetch(url, opts);
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.detail || `Request failed (${res.status})`);
   return data;
