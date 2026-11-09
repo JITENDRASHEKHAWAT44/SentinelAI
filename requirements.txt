@@ -1,0 +1,104 @@
+# ==========================================
+
+# BACKEND
+
+# ==========================================
+
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+pydantic-settings
+python-dotenv
+
+# ==========================================
+
+# LANGCHAIN CORE
+
+# ==========================================
+
+langchain
+langchain-core
+langchain-community
+langchain-text-splitters
+langchain-classic
+
+# ==========================================
+
+# NVIDIA NIM + LANGCHAIN
+
+# ==========================================
+
+langchain-nvidia-ai-endpoints
+
+# ==========================================
+
+# DATABASE - POSTGRESQL + PGVECTOR
+
+# ==========================================
+
+sqlalchemy
+psycopg[binary]
+pgvector
+langchain-postgres
+alembic
+
+# ==========================================
+
+# DOCUMENT PROCESSING
+
+# ==========================================
+
+pypdf
+pymupdf
+python-docx
+docx2txt
+
+# ==========================================
+
+# GUARDRAILS
+
+# ==========================================
+
+nemoguardrails[sdd,jailbreak]
+
+# ==========================================
+
+# PII DETECTION
+
+# ==========================================
+
+presidio-analyzer
+presidio-anonymizer
+
+# ==========================================
+
+# EVALUATION
+
+# ==========================================
+
+ragas
+deepeval
+datasets
+
+# ==========================================
+
+# UTILITIES
+
+# ==========================================
+
+numpy
+pandas
+httpx
+tenacity
+structlog
+
+# ==========================================
+
+# TESTING
+
+# ==========================================
+
+pytest
+pytest-asyncio
+httpx

@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL Database with pgvector extension pre-installed
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: sentinel_pgvector
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres_secure_pass}
+      POSTGRES_DB: ${DB_NAME:-sentinelrag}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-sentinelrag}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Sentinel AI FastAPI Application & Frontend
+  web:
+    build: .
+    container_name: sentinel_app
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - NVIDIA_API_KEY=${NVIDIA_API_KEY}
+      - DATABASE_URL=postgresql+psycopg://${DB_USER:-postgres}:${DB_PASSWORD:-postgres_secure_pass}@db:5432/${DB_NAME:-sentinelrag}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+
+volumes:
+  pgdata:

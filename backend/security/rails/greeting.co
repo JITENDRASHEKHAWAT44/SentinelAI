@@ -1,0 +1,16 @@
+define user ask greeting
+  "hello"
+  "hi"
+  "hey"
+  "good morning"
+  "good afternoon"
+  "good evening"
+  "greetings"
+  "hello there"
+
+define bot inform greeting
+  "Hello! I am SentinelRAG, your secure document assistant. How can I assist you with your documents today?"
+
+define flow greeting
+  user ask greeting
+  bot inform greeting

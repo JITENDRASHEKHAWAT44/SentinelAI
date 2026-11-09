@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentinel AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- ── TOP BAR ── -->
+    <header class="topbar">
+      <div class="topbar-brand">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <span class="brand-name">Sentinel AI</span>
+      </div>
+
+      <nav class="topbar-nav">
+        <button class="tab-btn is-active" data-view="chat">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Chat
+        </button>
+        <button class="tab-btn" data-view="evaluation">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+          Evaluation
+        </button>
+      </nav>
+
+      <div class="topbar-status">
+        <span class="status-dot"></span>
+        <span id="db-status-badge">Connected</span>
+      </div>
+    </header>
+
+    <!-- ── CHAT VIEW ── -->
+    <section id="view-chat" class="workspace-view is-active">
+
+      <!-- Document sub-bar -->
+      <div class="doc-bar">
+        <div class="doc-name">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span id="active-doc-name">No document loaded</span>
+        </div>
+        <div class="doc-bar-actions">
+          <button id="btn-toggle-sources" class="btn-upload" title="View retrieved sources">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            Sources
+          </button>
+          <button id="btn-clear-session" class="btn-upload" title="Wipe uploaded PDF and reset all session data">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            Clear Session
+          </button>
+          <button id="btn-end-chat" class="btn-upload btn-upload-danger" title="Stop and end the conversation" style="display:none;">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+            End Chat
+          </button>
+          <input type="file" id="sidebar-file-picker" accept=".pdf,.docx,.txt" hidden>
+          <button id="sidebar-upload-trigger" class="btn-upload btn-upload-accent">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Upload PDF
+          </button>
+        </div>
+      </div>
+      <div id="upload-feedback-bar" class="upload-feedback" hidden></div>
+
+      <!-- Upper side: Initial questions generated from the uploaded PDF -->
+      <div id="initial-questions-strip" class="initial-questions-strip">
+        <div class="questions-strip-label">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>Initial Questions:</span>
+        </div>
+        <div id="initial-questions-chips" class="initial-questions-chips">
+          <span style="font-size:12px;color:var(--ink-tertiary);">Loading questions…</span>
+        </div>
+      </div>
+
+      <!-- Chat center stage -->
+      <div class="chat-center">
+
+        <!-- Welcome state: lightweight hint on clean background -->
+        <div id="chat-welcome-state" class="welcome-container">
+          <p id="welcome-subtext" class="welcome-hint">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span>Upload a PDF to get started, or ask a question below.</span>
+          </p>
+        </div>
+
+        <!-- Message feed -->
+        <div id="chat-message-feed" class="message-feed" hidden></div>
+
+        <!-- Composer -->
+        <form id="chat-composer-form" class="composer-container">
+          <div class="composer-box">
+            <textarea id="chat-query-input" rows="1" placeholder="Ask about your document… (or type 'exit' to stop)"></textarea>
+            <button type="submit" id="btn-submit-query" class="btn-send" title="Send">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+          <div class="composer-meta">
+            <div class="composer-params">
+              <label class="param-item">
+                <span>Chunks:</span>
+                <input id="input-k-chunks" type="number" min="1" max="15" value="5">
+              </label>
+              <span class="engine-tag">nvidia/llm</span>
+            </div>
+            <span class="composer-hint">Press <kbd>Enter</kbd> to send · Type <kbd>exit</kbd> to stop conversation</span>
+          </div>
+        </form>
+      </div>
+
+      <!-- Sources side panel -->
+      <aside id="sources-panel" class="sources-panel is-collapsed">
+        <div class="panel-head">
+          <h3>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            Sources <span id="sources-count-badge" class="badge">0</span>
+          </h3>
+          <button id="btn-close-sources" class="btn-close" title="Close">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="panel-status">
+          <span id="sources-query-hint">Awaiting query</span>
+        </div>
+        <div id="sources-cards-list" class="panel-body">
+          <div class="empty-sources">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <p>Retrieved document excerpts will appear here when you ask a question.</p>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- ── EVALUATION VIEW ── -->
+    <section id="view-evaluation" class="workspace-view" hidden>
+      <div class="eval-content">
+
+        <div class="eval-header">
+          <div>
+            <h1>Model Evaluation</h1>
+            <p>RAGAS benchmark scores measuring retrieval and generation quality across golden QA samples.</p>
+          </div>
+          <div class="eval-controls">
+            <select id="eval-samples-count">
+              <option value="1">1 Sample</option>
+              <option value="2">2 Samples</option>
+              <option value="5">All 5 Goldens</option>
+            </select>
+            <button id="btn-run-evaluation" class="btn-primary">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Run Evaluation
+            </button>
+          </div>
+        </div>
+
+        <div id="eval-progress-banner" class="eval-progress-banner" hidden></div>
+
+        <!-- Metric cards -->
+        <div id="ragas-metrics-grid" class="metrics-grid">
+          <p class="empty-msg">No evaluation data yet. Click "Run Evaluation" to benchmark the RAG pipeline.</p>
+        </div>
+
+        <!-- Goldens table -->
+        <div class="data-card">
+          <div class="data-card-head">
+            <div>
+              <h2>Golden QA Standards</h2>
+              <span class="sub">Reference question-answer pairs used for benchmarking.</span>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:60px">#</th>
+                  <th style="width:300px">Question</th>
+                  <th>Ground Truth</th>
+                  <th style="width:80px">Action</th>
+                </tr>
+              </thead>
+              <tbody id="goldens-table-rows">
+                <tr><td colspan="4" class="table-empty">Loading golden standards…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Per-sample breakdown -->
+        <div class="data-card">
+          <div class="data-card-head">
+            <h2>Per-Sample Results</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Query</th>
+                  <th>Faithfulness</th>
+                  <th>Relevance</th>
+                  <th>Precision</th>
+                  <th>Recall</th>
+                  <th>Correctness</th>
+                </tr>
+              </thead>
+              <tbody id="eval-samples-table-rows">
+                <tr><td colspan="6" class="table-empty">No evaluation run completed yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Drop overlay -->
+  <div id="drop-overlay" class="drop-overlay" hidden>
+    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+    <strong>Drop your PDF here</strong>
+    <span>It will be parsed, embedded, and stored for retrieval.</span>
+  </div>
+
+  <!-- Edit golden modal -->
+  <div id="edit-golden-modal" class="modal-backdrop" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>Edit Ground Truth</h3>
+        <button id="btn-modal-close" class="btn-close">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="modal-field-id">
+        <div class="form-group">
+          <label>Question</label>
+          <p id="modal-field-question" class="modal-question-box"></p>
+        </div>
+        <div class="form-group">
+          <label for="modal-field-answer">Reference Answer</label>
+          <textarea id="modal-field-answer" rows="5"></textarea>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button id="btn-modal-cancel" class="btn-ghost">Cancel</button>
+        <button id="btn-modal-save" class="btn-primary">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/app.js"></script>
+</body>
+</html>

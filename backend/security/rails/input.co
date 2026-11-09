@@ -1,0 +1,12 @@
+define user ask off topic
+  "can you write a poem about flowers"
+  "can you bake a chocolate cake"
+  "what is the recipe for pasta"
+  "who is your favorite celebrity"
+
+define bot inform off topic
+  "I am SentinelRAG, specialized in analyzing and answering questions from your documents. Please ask a question related to your documents or data."
+
+define flow handle off topic
+  user ask off topic
+  bot inform off topic

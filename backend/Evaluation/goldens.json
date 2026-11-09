@@ -1,0 +1,32 @@
+[
+  {
+    "id": "golden_1",
+    "question": "Who is the top performing student and what was their average score?",
+    "ground_truth": "Priya Solanki was the top performer with an average score of 95.20 and achieved Rank 1 with an A+ grade.",
+    "category": "ranking"
+  },
+  {
+    "id": "golden_2",
+    "question": "How many students passed the examination and what is the overall pass percentage?",
+    "ground_truth": "Out of 15 total students, 14 passed and 1 failed, resulting in an overall pass percentage of 93.33%.",
+    "category": "statistics"
+  },
+  {
+    "id": "golden_3",
+    "question": "Which student failed the examination and what was their subject score?",
+    "ground_truth": "Neel Parmar was the only student who failed, scoring 30 in Maths, which was below the pass mark of 35.",
+    "category": "performance"
+  },
+  {
+    "id": "golden_4",
+    "question": "What are the subject-wise average marks across all subjects in the report?",
+    "ground_truth": "The subject-wise average marks are: Maths: 68.27, Science: 67.30, English: 71.50, Computer: 73.40, and History: 69.20.",
+    "category": "statistics"
+  },
+  {
+    "id": "golden_5",
+    "question": "Who were the top 3 ranked students according to the performance report?",
+    "ground_truth": "The top 3 ranked students are Rank 1: Priya Solanki (95.20 average, Grade A+), Rank 2: Aarav Patel (90.00 average, Grade A+), and Rank 3: Isha Desai (89.60 average, Grade A).",
+    "category": "ranking"
+  }
+]

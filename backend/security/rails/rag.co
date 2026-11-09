@@ -1,0 +1,16 @@
+define user ask document question
+  "who performed really well and it's scores"
+  "who performed really well"
+  "what was the score"
+  "how did students perform"
+  "who ranked first"
+  "who scored highest"
+  "who failed"
+  "what is the average"
+  "tell me about the report"
+  "summarize student performance"
+  "what did student score"
+
+define flow answer document question
+  user ask document question
+  bot respond to question

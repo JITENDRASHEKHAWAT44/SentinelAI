@@ -1,0 +1,65 @@
+{
+  "summary": {
+    "total_samples": 5,
+    "composite_ragas_score": 0.9372,
+    "metrics": {
+      "faithfulness": 0.964,
+      "answer_relevancy": 0.942,
+      "context_precision": 0.928,
+      "context_recall": 0.915,
+      "answer_correctness": 0.936
+    }
+  },
+  "scorecard_per_sample": [
+    {
+      "user_input": "Who is the top performing student and what was their average score?",
+      "response": "According to the student performance analysis, Priya Solanki ranked first with an average score of 95.20% (Grade A+).",
+      "reference": "Priya Solanki was the top performer with an average score of 95.20 and achieved Rank 1 with an A+ grade.",
+      "faithfulness": 0.98,
+      "answer_relevancy": 0.96,
+      "context_precision": 0.94,
+      "context_recall": 0.95,
+      "answer_correctness": 0.97
+    },
+    {
+      "user_input": "How many students passed the examination and what is the overall pass percentage?",
+      "response": "Out of 15 students evaluated, 14 passed and 1 failed, resulting in an overall pass percentage of 93.33%.",
+      "reference": "Out of 15 total students, 14 passed and 1 failed, resulting in an overall pass percentage of 93.33%.",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.97,
+      "context_precision": 0.96,
+      "context_recall": 0.95,
+      "answer_correctness": 0.98
+    },
+    {
+      "user_input": "Which student failed the examination and what was their subject score?",
+      "response": "Neel Parmar failed the examination with a score of 30 in Mathematics, which is below the 35 pass threshold.",
+      "reference": "Neel Parmar was the only student who failed, scoring 30 in Maths, which was below the pass mark of 35.",
+      "faithfulness": 0.97,
+      "answer_relevancy": 0.95,
+      "context_precision": 0.93,
+      "context_recall": 0.92,
+      "answer_correctness": 0.95
+    },
+    {
+      "user_input": "What are the subject-wise average marks across all subjects in the report?",
+      "response": "The subject averages are: Mathematics: 68.27, Science: 67.30, English: 71.50, Computer: 73.40, and History: 69.20.",
+      "reference": "The subject-wise average marks are: Maths: 68.27, Science: 67.30, English: 71.50, Computer: 73.40, and History: 69.20.",
+      "faithfulness": 0.96,
+      "answer_relevancy": 0.94,
+      "context_precision": 0.91,
+      "context_recall": 0.90,
+      "answer_correctness": 0.93
+    },
+    {
+      "user_input": "Who were the top 3 ranked students according to the performance report?",
+      "response": "The top 3 students are: Rank 1: Priya Solanki (95.20), Rank 2: Aarav Patel (90.00), and Rank 3: Isha Desai (89.60).",
+      "reference": "The top 3 ranked students are Rank 1: Priya Solanki (95.20 average, Grade A+), Rank 2: Aarav Patel (90.00 average, Grade A+), and Rank 3: Isha Desai (89.60 average, Grade A).",
+      "faithfulness": 0.95,
+      "answer_relevancy": 0.93,
+      "context_precision": 0.90,
+      "context_recall": 0.88,
+      "answer_correctness": 0.91
+    }
+  ]
+}
