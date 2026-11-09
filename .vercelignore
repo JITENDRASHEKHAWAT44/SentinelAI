@@ -1,0 +1,9 @@
+# Ignore Python backend files during Vercel frontend build
+backend/
+pyproject.toml
+requirements.txt
+Dockerfile
+docker-compose.yml
+.python-version
+RAG/
+data/
