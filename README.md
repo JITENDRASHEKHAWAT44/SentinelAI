@@ -1,6 +1,22 @@
 # Sentinel AI — Guardrailed Document Intelligence & RAG Pipeline
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://sentinelai44.vercel.app/)
+[![API Status](https://img.shields.io/badge/Backend_API-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://sentinelai-5n2h.onrender.com/)
+[![Database](https://img.shields.io/badge/Vector_DB-Neon_pgvector-00E599?style=for-the-badge&logo=postgresql&logoColor=white)](https://neon.tech/)
+[![Model](https://img.shields.io/badge/NVIDIA_NIM-Nemotron--3.5-76B900?style=for-the-badge&logo=nvidia&logoColor=white)](https://build.nvidia.com/)
+
 Sentinel AI is a production-grade, secure Document Intelligence QA system powered by NVIDIA NIM microservices, PostgreSQL `pgvector`, NeMo Guardrails, and RAGAS automated benchmarking.
+
+---
+
+## 🌐 Live Production Links
+
+| Component | Platform | URL |
+| :--- | :--- | :--- |
+| **Frontend Web App** | **Vercel** | [https://sentinelai44.vercel.app/](https://sentinelai44.vercel.app/) |
+| **Backend REST API** | **Render** | [https://sentinelai-5n2h.onrender.com/](https://sentinelai-5n2h.onrender.com/) |
+| **API Interactive Docs** | **Swagger / OpenAPI** | [https://sentinelai-5n2h.onrender.com/docs](https://sentinelai-5n2h.onrender.com/docs) |
+| **Cloud Vector Store** | **Neon PostgreSQL** | Serverless `pgvector` (2048-dim embeddings) |
 
 ---
 
